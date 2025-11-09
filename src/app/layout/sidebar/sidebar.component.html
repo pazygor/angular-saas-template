@@ -1,0 +1,71 @@
+<div class="sidebar-container surface-section h-full">
+  <!-- Logo e Nome -->
+  <div class="sidebar-header p-4 border-bottom-1 surface-border">
+    <div class="flex align-items-center gap-3">
+      <i class="pi pi-shopping-bag text-primary text-4xl"></i>
+      <div>
+        <h3 class="m-0 text-xl font-bold text-primary">ClimbDelivery</h3>
+        <p class="m-0 text-xs text-500">Gestão de Pedidos</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Items -->
+  <nav class="sidebar-nav p-3">
+    <ul class="list-none p-0 m-0">
+      <li *ngFor="let item of menuItems" class="mb-1">
+        <!-- Separator -->
+        <div *ngIf="item.separator" class="border-top-1 surface-border my-3"></div>
+
+        <!-- Item sem submenu -->
+        <div 
+          *ngIf="!item.items && !item.separator"
+          class="menu-item p-3 border-round cursor-pointer transition-colors transition-duration-150"
+          [class.active]="isActiveRoute(item.routerLink || '')"
+          [ngClass]="item.styleClass"
+          (click)="toggleItem(item)"
+        >
+          <i [class]="item.icon" class="mr-2"></i>
+          <span>{{ item.label }}</span>
+        </div>
+
+        <!-- Item com submenu -->
+        <div *ngIf="item.items">
+          <div 
+            class="menu-item p-3 border-round cursor-pointer transition-colors transition-duration-150"
+            (click)="toggleItem(item)"
+          >
+            <i [class]="item.icon" class="mr-2"></i>
+            <span>{{ item.label }}</span>
+            <i 
+              class="pi ml-auto transition-transform transition-duration-300"
+              [class.pi-chevron-down]="!item.expanded"
+              [class.pi-chevron-up]="item.expanded"
+            ></i>
+          </div>
+
+          <!-- Submenu -->
+          <ul 
+            class="list-none p-0 m-0 pl-4 overflow-hidden transition-all transition-duration-300"
+            [class.submenu-expanded]="item.expanded"
+            [class.submenu-collapsed]="!item.expanded"
+          >
+            <li *ngFor="let subItem of item.items" class="mt-1">
+              <div 
+                class="submenu-item p-2 pl-3 border-round cursor-pointer transition-colors transition-duration-150"
+                [class.active]="isActiveRoute(subItem.routerLink || '')"
+                (click)="toggleItem(subItem)"
+              >
+                <i [class]="subItem.icon" class="mr-2 text-sm"></i>
+                <span class="text-sm">{{ subItem.label }}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Confirm Dialog -->
+<p-confirmDialog></p-confirmDialog>

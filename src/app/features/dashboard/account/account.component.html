@@ -1,0 +1,97 @@
+<div class="p-4">
+  <div class="mb-4">
+    <h1 class="text-3xl font-bold text-900 m-0 mb-2">Minha Conta</h1>
+    <p class="text-600 m-0">Gerencie suas informações pessoais e preferências</p>
+  </div>
+
+  <div class="grid">
+    <!-- Informações Pessoais -->
+    <div class="col-12 md:col-8">
+      <div class="surface-card p-4 border-round shadow-2 mb-4">
+        <h3 class="text-xl font-semibold text-900 mb-3">Informações Pessoais</h3>
+        
+        <div class="field mb-3">
+          <label class="block text-900 font-medium mb-2">Nome Completo</label>
+          <input type="text" pInputText class="w-full" [value]="currentUser?.name || ''" />
+        </div>
+
+        <div class="field mb-3">
+          <label class="block text-900 font-medium mb-2">Email</label>
+          <input type="email" pInputText class="w-full" [value]="currentUser?.email || ''" />
+        </div>
+
+        <div class="field mb-3">
+          <label class="block text-900 font-medium mb-2">Telefone</label>
+          <input type="text" pInputText class="w-full" placeholder="(00) 00000-0000" />
+        </div>
+
+        <button pButton label="Salvar Alterações" icon="pi pi-check" class="p-button-success"></button>
+      </div>
+
+      <!-- Alterar Senha -->
+      <div class="surface-card p-4 border-round shadow-2">
+        <h3 class="text-xl font-semibold text-900 mb-3">Alterar Senha</h3>
+        
+        <div class="field mb-3">
+          <label class="block text-900 font-medium mb-2">Senha Atual</label>
+          <p-password 
+            placeholder="Digite sua senha atual"
+            [toggleMask]="true"
+            [feedback]="false"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-password>
+        </div>
+
+        <div class="field mb-3">
+          <label class="block text-900 font-medium mb-2">Nova Senha</label>
+          <p-password 
+            placeholder="Digite sua nova senha"
+            [toggleMask]="true"
+            [feedback]="true"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-password>
+        </div>
+
+        <div class="field mb-3">
+          <label class="block text-900 font-medium mb-2">Confirmar Nova Senha</label>
+          <p-password 
+            placeholder="Confirme sua nova senha"
+            [toggleMask]="true"
+            [feedback]="false"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-password>
+        </div>
+
+        <button pButton label="Alterar Senha" icon="pi pi-lock" class="p-button-warning"></button>
+      </div>
+    </div>
+
+    <!-- Card de Perfil -->
+    <div class="col-12 md:col-4">
+      <div class="surface-card p-4 border-round shadow-2 text-center">
+        <div class="mb-3">
+          <div class="inline-flex align-items-center justify-content-center border-circle bg-primary" style="width: 100px; height: 100px;">
+            <span class="text-4xl font-bold text-white">{{ (currentUser?.name?.substring(0, 2)?.toUpperCase()) || 'U' }}</span>
+          </div>
+        </div>
+        
+        <h3 class="text-xl font-semibold text-900 mb-1">{{ currentUser?.name }}</h3>
+        <p class="text-600 mb-2">{{ currentUser?.email }}</p>
+        
+        <span 
+          class="inline-block px-3 py-1 bg-blue-100 text-blue-700 border-round font-semibold text-sm"
+        >
+          {{ currentUser?.role === 'admin' ? 'Administrador' : 'Usuário' }}
+        </span>
+
+        <div class="mt-4 pt-4 border-top-1 surface-border">
+          <p class="text-600 text-sm m-0">Membro desde</p>
+          <p class="text-900 font-semibold m-0">Novembro 2025</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

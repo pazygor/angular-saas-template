@@ -1,0 +1,89 @@
+<header class="header-container surface-card shadow-2 py-3 px-4">
+  <div class="flex align-items-center justify-content-between">
+    <!-- Espaço vazio à esquerda (pode ser usado para breadcrumb futuramente) -->
+    <div class="flex-1">
+      <h2 class="m-0 text-xl font-semibold text-900">Dashboard</h2>
+    </div>
+
+    <!-- Informações do usuário e menu -->
+    <div class="flex align-items-center gap-3">
+      <!-- Notificações (placeholder) -->
+      <button 
+        class="p-button-text p-button-rounded p-button-icon-only relative"
+        pButton
+        icon="pi pi-bell"
+        pBadge
+        value="3"
+        severity="danger"
+      ></button>
+
+      <!-- Menu do usuário -->
+      <div class="user-menu-container relative">
+        <div 
+          class="user-info flex align-items-center gap-3 cursor-pointer p-2 border-round hover:surface-hover transition-colors transition-duration-150"
+          (click)="toggleUserMenu()"
+        >
+          <!-- Avatar com iniciais -->
+          <div class="user-avatar">
+            <span>{{ getUserInitials() }}</span>
+          </div>
+
+          <!-- Nome e email -->
+          <div class="user-details hidden md:block">
+            <p class="m-0 font-semibold text-900">{{ currentUser?.name }}</p>
+            <p class="m-0 text-xs text-500">{{ currentUser?.email }}</p>
+          </div>
+
+          <i class="pi pi-chevron-down text-sm text-500"></i>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Overlay para fechar o menu quando clicar fora -->
+<div 
+  class="user-menu-overlay fixed top-0 left-0 w-full h-full" 
+  *ngIf="showUserMenu"
+  (click)="toggleUserMenu()"
+></div>
+
+<!-- Dropdown menu (movido para fora do header para ficar sobre o overlay) -->
+<div 
+  class="user-dropdown surface-card shadow-3 border-round"
+  *ngIf="showUserMenu"
+>
+  <ul class="list-none p-2 m-0">
+    <li>
+      <div 
+        class="menu-link flex align-items-center gap-2 p-2 border-round text-700 hover:surface-hover cursor-pointer transition-colors transition-duration-150"
+        (click)="navigateToAccount()"
+      >
+        <i class="pi pi-user"></i>
+        <span>Minha Conta</span>
+      </div>
+    </li>
+    <li>
+      <div 
+        class="menu-link flex align-items-center gap-2 p-2 border-round text-700 hover:surface-hover cursor-pointer transition-colors transition-duration-150"
+        (click)="navigateToSettings()"
+      >
+        <i class="pi pi-cog"></i>
+        <span>Configurações</span>
+      </div>
+    </li>
+    <li class="border-top-1 surface-border mt-2 pt-2">
+      <div 
+        class="menu-link flex align-items-center gap-2 p-2 border-round text-red-500 hover:surface-hover cursor-pointer transition-colors transition-duration-150"
+        (click)="logout()"
+      >
+        <i class="pi pi-sign-out"></i>
+        <span>Sair</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Confirm Dialog -->
+<p-confirmDialog></p-confirmDialog>

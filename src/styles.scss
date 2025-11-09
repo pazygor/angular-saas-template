@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+
+// PrimeNG v20+ - Importação do tema
+@import 'primeicons/primeicons.css';
+@import 'primeflex/primeflex.css';
+
+// Importar fontes do Google (Poppins)
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+// Variáveis globais
+:root {
+  --primary-color: #3B82F6;
+  --surface-ground: #f8fafc;
+  --text-color: #1e293b;
+  --text-color-secondary: #64748b;
+}
+
+// Reset e estilos globais
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--surface-ground);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+// Estilos para scrollbar personalizada
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+// Utilidades de layout
+.full-height {
+  height: 100vh;
+}
+
+.card-shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.card-shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}

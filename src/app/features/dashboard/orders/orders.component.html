@@ -1,0 +1,126 @@
+<div class="orders-container">
+  <!-- Cabeçalho -->
+  <div class="flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="text-3xl font-bold text-900 m-0 mb-2">Meus Pedidos</h1>
+      <p class="text-600 m-0">Gerencie os pedidos em tempo real</p>
+    </div>
+    <button 
+      pButton 
+      icon="pi pi-refresh" 
+      label="Atualizar"
+      class="p-button-outlined"
+      (click)="loadOrders()"
+      [loading]="loading"
+    ></button>
+  </div>
+
+  <!-- Grid de Colunas de Status -->
+  <div class="grid">
+    <div 
+      *ngFor="let column of columns" 
+      class="col-12 md:col-4"
+    >
+      <!-- Cabeçalho da Coluna -->
+      <div class="column-header p-3 mb-3 border-round" [style.background-color]="column.color">
+        <div class="flex align-items-center justify-content-between">
+          <h3 class="text-white m-0 font-semibold">{{ column.title }}</h3>
+          <span class="text-white bg-white-alpha-30 px-2 py-1 border-round font-semibold">
+            {{ ordersByColumn[column.title]?.length || 0 }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Cards de Pedidos -->
+      <div class="orders-list">
+        <div 
+          *ngFor="let order of ordersByColumn[column.title]" 
+          class="order-card surface-card p-3 mb-3 border-round shadow-2 cursor-pointer hover:shadow-4 transition-all transition-duration-300"
+        >
+          <!-- Cabeçalho do Pedido -->
+          <div class="flex align-items-center justify-content-between mb-3">
+            <div class="flex align-items-center gap-2">
+              <span class="font-bold text-xl text-primary">{{ order.orderNumber }}</span>
+              <span 
+                class="badge px-2 py-1 border-round text-xs font-semibold"
+                [class.badge-delivery]="order.orderType === 'delivery'"
+                [class.badge-pickup]="order.orderType === 'pickup'"
+              >
+                <i [class]="order.orderType === 'delivery' ? 'pi pi-car' : 'pi pi-shopping-bag'" class="mr-1"></i>
+                {{ order.orderType === 'delivery' ? 'Entrega' : 'Retirada' }}
+              </span>
+            </div>
+            <span class="text-500 text-sm">{{ getOrderTime(order) }}</span>
+          </div>
+
+          <!-- Informações do Cliente -->
+          <div class="mb-3">
+            <p class="font-semibold text-900 m-0 mb-1">{{ order.customerName }}</p>
+            <p class="text-600 text-sm m-0 mb-1">
+              <i class="pi pi-phone mr-1"></i>
+              {{ order.customerPhone }}
+            </p>
+            <p class="text-600 text-sm m-0" *ngIf="order.deliveryAddress">
+              <i class="pi pi-map-marker mr-1"></i>
+              {{ order.deliveryAddress }}
+            </p>
+          </div>
+
+          <!-- Itens do Pedido -->
+          <div class="mb-3 p-2 surface-ground border-round">
+            <div *ngFor="let item of order.items" class="flex justify-content-between text-sm mb-1">
+              <span class="text-700">{{ item.quantity }}x {{ item.productName }}</span>
+              <span class="text-900 font-semibold">{{ orderService.formatCurrency(item.totalPrice) }}</span>
+            </div>
+            <div *ngIf="order.notes" class="mt-2 pt-2 border-top-1 surface-border">
+              <p class="text-600 text-sm m-0">
+                <i class="pi pi-info-circle mr-1"></i>
+                <strong>Obs:</strong> {{ order.notes }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Rodapé do Card -->
+          <div class="flex align-items-center justify-content-between pt-2 border-top-1 surface-border">
+            <div>
+              <p class="text-xs text-500 m-0 mb-1">Total</p>
+              <p class="text-xl font-bold text-primary m-0">{{ orderService.formatCurrency(order.totalAmount) }}</p>
+            </div>
+            <div class="flex gap-2" *ngIf="column.title !== 'Pronto para Entrega'">
+              <button 
+                pButton 
+                icon="pi pi-arrow-right"
+                class="p-button-sm p-button-success"
+                [pTooltip]="'Mover para ' + columns[columns.indexOf(column) + 1]?.title"
+                tooltipPosition="top"
+                (click)="moveToNextStatus(order, column)"
+              ></button>
+            </div>
+          </div>
+
+          <!-- Tempo Estimado -->
+          <div *ngIf="order.estimatedTime" class="mt-2 p-2 bg-blue-50 border-round text-center">
+            <span class="text-sm text-blue-700">
+              <i class="pi pi-clock mr-1"></i>
+              Tempo estimado: {{ order.estimatedTime }} min
+            </span>
+          </div>
+        </div>
+
+        <!-- Mensagem quando não há pedidos -->
+        <div 
+          *ngIf="!ordersByColumn[column.title] || ordersByColumn[column.title].length === 0"
+          class="surface-card p-4 border-round text-center"
+        >
+          <i class="pi pi-inbox text-4xl text-400 mb-2"></i>
+          <p class="text-600 m-0">Nenhum pedido nesta etapa</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="loading">
+    <i class="pi pi-spin pi-spinner text-6xl text-primary"></i>
+  </div>
+</div>
